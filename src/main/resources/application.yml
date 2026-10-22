@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/protected_api
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+app:
+  jwt:
+    secret: "change-this-lab-secret-key-must-be-long-enough-256bits!!"
+    expiration-ms: 3600000
