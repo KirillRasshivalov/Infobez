@@ -29,16 +29,26 @@ jobs:
       - name: SCA — OWASP Dependency-Check
         run: mvn -B org.owasp:dependency-check-maven:check
 
+      - name: Show reports
+        if: always()
+        run: ls -la target/*.json || true
+
       - name: Pretty-print JSON reports
         if: always()
         run: bash scripts/pretty-json-reports.sh
 
-      - name: Upload SAST/SCA JSON reports
+      - name: Upload SAST report
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: security-reports
-          path: |
-            target/spotbugsSarif.json
-            target/dependency-check-report.json
-          if-no-files-found: warn
+          name: sast-spotbugs
+          path: target/spotbugsSarif.json
+          if-no-files-found: error
+
+      - name: Upload SCA report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: sca-dependency-check
+          path: target/dependency-check-report.json
+          if-no-files-found: error
