@@ -27,11 +27,24 @@ jobs:
         run: mvn -B spotbugs:spotbugs
 
       - name: SCA — OWASP Dependency-Check
-        run: mvn -B org.owasp:dependency-check-maven:check
-
-      - name: Show reports
-        if: always()
-        run: ls -la target/*.json || true
+        run: |
+          set -eux
+          mvn -B org.owasp:dependency-check-maven:check \
+            -DautoUpdate=false \
+            -Dformat=JSON \
+            -DprettyPrint=true \
+            -DfailOnError=false \
+            -DoutputDirectory="${PWD}/target"
+          echo "=== reports after SCA ==="
+          find . -name 'dependency-check-report*' -print -ls || true
+          ls -la target || true
+          if [ ! -f target/dependency-check-report.json ]; then
+            FOUND="$(find . -name 'dependency-check-report.json' | head -n 1 || true)"
+            if [ -n "${FOUND}" ]; then
+              cp "${FOUND}" target/dependency-check-report.json
+            fi
+          fi
+          test -f target/dependency-check-report.json
 
       - name: Pretty-print JSON reports
         if: always()

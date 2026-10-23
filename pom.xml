@@ -91,18 +91,24 @@
                 <artifactId>dependency-check-maven</artifactId>
                 <version>12.1.0</version>
                 <configuration>
-                    <format>JSON</format>
+                    <formats>
+                        <format>JSON</format>
+                    </formats>
+                    <prettyPrint>true</prettyPrint>
                     <outputDirectory>${project.build.directory}</outputDirectory>
                     <failBuildOnCVSS>11</failBuildOnCVSS>
                     <failOnError>false</failOnError>
-                    <!-- Без NVD API key полная загрузка базы занимает часы.
-                         Central Analyzer + отчёт JSON; OSS Index сейчас часто даёт 401. -->
+                    <!-- На CI без NVD API key сетевые анализаторы часто падают
+                         до записи отчёта. Оставляем офлайн-скан зависимостей. -->
                     <autoUpdate>false</autoUpdate>
                     <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
-                    <centralAnalyzerEnabled>true</centralAnalyzerEnabled>
+                    <centralAnalyzerEnabled>false</centralAnalyzerEnabled>
                     <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled>
                     <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
+                    <nodeAuditAnalyzerEnabled>false</nodeAuditAnalyzerEnabled>
                     <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+                    <nugetconfAnalyzerEnabled>false</nugetconfAnalyzerEnabled>
+                    <nuspecAnalyzerEnabled>false</nuspecAnalyzerEnabled>
                 </configuration>
             </plugin>
         </plugins>
