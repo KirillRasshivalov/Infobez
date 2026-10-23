@@ -31,7 +31,7 @@ jobs:
           curl -sL https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_amd64 -o osv-scanner
           chmod +x osv-scanner
           mkdir -p target
-          ./osv-scanner scan --format json --output-file target/sca-report.json ./ || true
+          ./osv-scanner scan --verbosity error --format json --output-file target/sca-report.json ./ || true
           test -s target/sca-report.json
 
       - name: Upload SAST report
