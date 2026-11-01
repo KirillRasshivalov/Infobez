@@ -76,7 +76,7 @@ curl http://localhost:8080/api/data \
 При push/PR в GitHub Actions запускаются:
 
 - **SAST:** SpotBugs → `spotbugsSarif.json`
-- **SCA:** OWASP Dependency-Check → `dependency-check-report.json`
+- **SCA:** OSV Scanner → `sca-report.json`
 
 Отчёты сохраняются как artifact `security-reports`.
 
